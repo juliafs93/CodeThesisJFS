@@ -1,0 +1,212 @@
+function[] = CompareProperty(SelectedN,Which,Info, PathPlots,Exps, Selection, XLim,PalettePoints, PaletteMeans, varargin)
+    SplitEarly = 15;
+    try
+        if ~isempty(varargin{1})
+            YLimits = varargin{1};
+        end
+        if ~isempty(varargin{2})
+            Var = varargin{2};
+        end
+        if ~isempty(varargin{3})
+            SplitEarly = varargin{3};
+        end
+    end
+    %try
+    %Selection = '';
+        Fig1 = figure('PaperSize',[20 50],'PaperUnits','inches','resize','on', 'visible','on');
+        Fig1.Renderer='Painters';
+     
+    if Which == 3
+        Index = find(cellfun(@(x) strcmp(x,SelectedN{1}),table2array(Exps(:,1)))==1)';
+        SelectedN = table2cell(Exps(Index,3));
+    end
+    
+         ToSave = [PathPlots,char(join(SelectedN,'_vs_'))];
+ 
+  
+    for i = 1:length(SelectedN)
+        Index = find(cellfun(@(x) strcmp(x,SelectedN{i}),table2array(Exps(:,Which)))==1)';
+        PropertiesMerged = table();
+        TimeScaleMerged = [];
+        %NormMerged = [];
+        PropertyMerged = [];
+        MeanEachMerged = [];
+        %MeanNormMerged =[];
+        %OnOffMerged = [];
+
+        %try
+        for x = 1:size(Index,2)
+            %try
+            Experiment = [Exps.Nickname{Index(x)},' ',num2str(Exps.Rep(Index(x)))];
+            PathToSave = [Info.Path{Index(x)},Info.File{Index(x)},...
+            Info.Name{Index(x)},Info.File{Index(x)}]; 
+            load([PathToSave,'_Data3D.mat']);
+            %disp(['loaded ',PathToSave,'_Data3D.mat'])
+            Property = Data3D.(Var);
+            %size(Property)
+            Parameters = Info(Index(x),:);
+            Table2Vars(Parameters);
+            try
+                load([PathToSave,'_Data.mat']);
+                Struct2Vars(Data);
+            catch
+                TimeScale = ([1:Frames]-nc14+Delay+From-1)*TimeRes/60;
+                %TimeScale = TimeScale(From:end);
+                %size(TimeScale)
+            end
+            
+            if strcmp(Var,'Volume')
+                Factor = XYRes.^3;
+                Units = 'um^3';
+            elseif  strcmp(Var,'SurfaceArea') | ...
+                   strcmp(Var,'Area1') | strcmp(Var,'Area2') |strcmp(Var,'Area3')
+                Factor = XYRes.^2;
+                Units = 'um^2';
+            elseif strcmp(Var,'PrincipalAxisLength_1') | strcmp(Var,'PrincipalAxisLength_2') | strcmp(Var,'PrincipalAxisLength_3') |... 
+                strcmp(Var,'Perimeter1') | strcmp(Var,'Perimeter2') | strcmp(Var,'Perimeter3') | ...
+                strcmp(Var,'EquivDiameter1') | strcmp(Var,'EquivDiameter2') | strcmp(Var,'EquivDiameter3') 
+                Factor = XYRes;
+                Units = 'um';
+            else
+                Factor = 1;
+                Units = 'dimensionless';
+            end
+            
+            Property = Property.*Factor;
+%             if SplitEarly ~= 15
+%                 %SplitEarly =30; 
+%                 minOn = 5;
+%                 Labels = Properties.NewLabel;
+%                 [~, ~,PropertiesNew, ~] = DefineExpAll(MaxF,MaxFBG,CentX,Labels,Baseline,TimeRes,3,60,SplitEarly,nc14,Delay,minOn);
+%                 %close Fig
+%                 Properties.Onset = PropertiesNew.Onset;
+%                 Properties.Type = PropertiesNew.Type;
+%             end
+           
+            Properties = table();
+           Properties.Type = string(repmat('All',size(Property,2),1));
+           Properties.Label = [1:size(Property,2)]';
+
+            
+            
+            
+            F = max(round(35*60/TimeRes)+nc14-Delay,1);
+        
+        
+            ImLab = CentroidsF;
+        
+        
+        PathToSaveR = [Path,File,Name,'regions/',File]; 
+        Regions = imread([PathToSaveR,'_regions.tiff']);
+               
+        CentX = Data3D.Centroid_1;
+        CentY = Data3D.Centroid_2;
+        
+        Selected = [1:size(Property,2)];
+        %LabelsSelected = Labels(Selected);
+        PosX = floor(nanmean(CentX(max(1,F-5): F+5,Selected),1));
+        PosY = floor(nanmean(CentY(max(1,F-5): F+5,Selected),1));
+        %Indices = sub2ind(size(Regions),PosY,PosX);
+        % added to prevent too many NaNs when cells are not tracked in the
+        % F-5:F+5 window
+        PosX(isnan(PosX)) = floor(nanmean(CentX(max(1,nc14): nc14-Delay+40*60./TimeRes,Selected(isnan(PosX))),1));
+        PosY(isnan(PosY)) = floor(nanmean(CentY(max(1,nc14): nc14-Delay+40*60./TimeRes,Selected(isnan(PosY))),1));
+        Indices = sub2ind(size(Regions),PosY,PosX);
+        Selected = Selected(~isnan(Indices));
+        %LabelsSelected = LabelsSelected(~isnan(Indices));
+        PosX = PosX(~isnan(Indices));
+        PosY = PosY(~isnan(Indices));
+        Indices = Indices(~isnan(Indices));
+        RegionsInd = Regions(Indices);
+        ME = Selected(RegionsInd==1);
+        MSE = Selected(RegionsInd==2);
+        NE = Selected(RegionsInd==3);
+        DE = Selected(RegionsInd==4);
+        Properties.Region = string(repmat('NaN',length(Properties.Type),1));
+        Properties.Region(ME) = string(repmat('ME',length(ME),1));
+        Properties.Region(MSE) = string(repmat('MSE',length(MSE),1));
+        Properties.Region(NE) = string(repmat('NE',length(NE),1));
+        Properties.Region(DE) = string(repmat('DE',length(DE),1));
+        
+            
+            if strcmp(Selection,'') == 1
+                Selected = [Properties.Type ~= 'BG'];
+            else
+                Selected = Properties.Type ~= 'EarlyOnly' & Properties.Region == Selection;
+            end
+            %Selected = ones(1,size(Property,2));
+            
+            
+            SplitEarlyF = max([SplitEarly*60./TimeRes+nc14-Delay,1]);
+            minOn = 5;
+            %OnOff = CleanOnOff(OnOff,minOn);
+            %[OnOff] = CleanNaNs(MedFilt,OnOff, minOn*2);
+            %Norm = ((MaxF-Baseline').*Baseline(1)./Baseline').*(2.^(12-Bits));
+            %Norm = (MaxF-Baseline').*OnOff.*Baseline(1)./Baseline'.*(2.^(12-Bits));
+            %Norm(Norm==0) = NaN;
+            Limits = [0, 90];
+            % uncomment to plot selected for each repeat
+             %[BurstNum,BurstLength,BurstPeriod,BurstPeak,BurstMax,OffTimeAll,BurstSize] = CountBursts(Norm,OnOff, Selected,minOn,SplitEarlyF,TimeRes);
+             %PlotSelected(Selected, TimeScale,Baseline,MaxF,MedFilt,OnOff,Properties,BurstPeak,TimeRes,Bits,nc14, Delay,Limits,[PathPlots,'/',Info.File{Index(x)},'_selected_',Selection,'.ps']);
+%           
+            Property = Property(:,Selected);
+%             MaxF = MaxF(:,Selected);
+%             MedFilt = MedFilt(:,Selected);
+%             OnOff = OnOff(:,Selected);
+             %Properties = Properties(Selected,:);
+%             Properties.NormAP = (Properties.AP_position-min(Properties.AP_position))./max(Properties.AP_position);
+%             Norm = Norm(:,Selected);
+%             OnOff(isnan(MaxF)) = NaN;
+            MeanEach = nanmean(Property,2);
+            [MeanEachMerged,~,~] = MergeFMatrix(MeanEach,MeanEachMerged,Properties,PropertiesMerged,TimeScale,TimeScaleMerged,TimeRes);     
+            [PropertyMerged,PropertiesMerged,TimeScaleMerged] = MergeFMatrix(Property,PropertyMerged,Properties,PropertiesMerged,TimeScale,TimeScaleMerged,TimeRes);     
+
+            %[NormMerged,~,~] = MergeFMatrix(Norm,NormMerged,Properties,PropertiesMerged,TimeScale,TimeScaleMerged,TimeRes);     
+            %[MeanNormMerged,~,~] = MergeFMatrix(MeanNormEach,MeanNormMerged,Properties,PropertiesMerged,TimeScale,TimeScaleMerged,TimeRes);     
+            %[OnOffMerged,PropertiesMerged,TimeScaleMerged] = MergeFMatrix(OnOff,OnOffMerged,Properties,PropertiesMerged,TimeScale,TimeScaleMerged,TimeRes);     
+
+        end
+       [MeanEachMerged,~,~] = MergeFMatrix([NaN],MeanEachMerged,table(0),PropertiesMerged,[0],TimeScaleMerged,TimeRes);
+       [PropertyMerged,PropertiesMerged,TimeScaleMerged] = MergeFMatrix([NaN],PropertyMerged,table(0),PropertiesMerged,[0],TimeScaleMerged,TimeRes);
+        MeanEachMerged(:,end) = [];
+       %        [NormMerged,~,~] = MergeFMatrix([NaN],NormMerged,table(0),PropertiesMerged,[0],TimeScaleMerged,TimeRes);
+%        [MeanNormMerged,~,~] = MergeFMatrix([NaN],MeanNormMerged,table(0),PropertiesMerged,[0],TimeScaleMerged,TimeRes);
+%        [OnOffMerged,PropertiesMerged,TimeScaleMerged] = MergeFMatrix([NaN],OnOffMerged,table(0),PropertiesMerged,[0],TimeScaleMerged,TimeRes);
+            %size(MeanEachMerged)
+
+       % ColorArg is 8 value colormap with info for allPoints, allMidPoints,
+       % shortPoints, longPoints, allMeans, allMidMeans, shortMeans, longMeans
+       % repeat value for each 4 times, it will update with every repeat
+       ColorArg = [PalettePoints(i,:);PalettePoints(i,:);PalettePoints(i,:);PalettePoints(i,:);...
+       PaletteMeans(i,:);PaletteMeans(i,:);PaletteMeans(i,:);PaletteMeans(i,:)];
+       %Selected = [PropertiesMerged.Type ~= 'BG'];
+       Selected = logical(ones(1,size(PropertyMerged,2)));
+       %YLimits = [min(0,min(MaxF(:))), max(2^Bits-1,max(MaxF(:)))];
+        try
+            YLimits = varargin{1};
+        end  
+        
+        PropertyMerged(PropertyMerged==0) = NaN;
+        MeanEachMerged(MeanEachMerged==0) = NaN;
+        
+       Fig1 = PlotMeansFractionShaded(PropertyMerged,MeanEachMerged,zeros(size(PropertyMerged)),TimeScaleMerged,Selected,PropertiesMerged,Bits,ColorArg,Fig1,1,SelectedN{i},XLim, YLimits);
+
+    %end
+    
+    
+    end
+     figure(Fig1); hold on
+       subplot(411); ylabel([Var,' (',Units,')']);
+       subplot(412); ylabel([Var,' (',Units,')']);
+       subplot(413); ylabel([Var,' (',Units,')']);
+       subplot(414); ylabel([Var,' (',Units,')']);
+
+
+    if strcmp(Selection,'') == 0; Selection = ['_',Selection];end
+        print(Fig1,[ToSave,Selection,'_',Var,'_means.pdf'],'-fillpage', '-dpdf');
+
+
+
+    close all
+    %end
+end

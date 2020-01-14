@@ -1,0 +1,15 @@
+Path	File	Name	Frames	Slices	Bits	TimeRes	XYRes	ZRes	Delay	Nickname	Rep	Zoom	Flip	From	nc14	To	SplitEarly	Channel1	Channel2	Notes
+/Volumes/4TB/membranes/20180119 gap43mCherry, nosMCPGFP,m5m8peveMS2LacZ/	20180119 gap43mCherry, nosMCPGFP,m5m8peveMS2LacZ.lif	_3D/	415	29	12	15	0.36	1	0	m5m8peve gap43mCh	1	2	0,0	1	85	416	15	MCP	memb	Pinh_4_Speed_400_488_0.2_G_1_R_1.5_GG_700_RG_750
+/Volumes/4TB/membranes/20180122 gap43mCherry, nosMCPGFP,m5m8peveMS2LacZ/	20180122 gap43mCherry, nosMCPGFP,m5m8peveMS2LacZ.lif	_3D/	179	29	12	15	0.36	1	150	Xm5m8peve gap43mCh	2	2	0,0	1	1	180	15	MCP	memb	Pinh_4_Speed_400_488_0.2_G_1_R_3_GG_700_RG_750
+/Volumes/4TB/membranes/20190825 nosMCPGFP, m5m8peveMS2lacZ, Dl-mSca/	20190825 nosMCPGFP, m5m8peveMS2lacZ, Dl-mSca 5 561 400x1 1.lif	_3D/	112	29	12	60	0.36	1	0	m5m8peve DlmSca	1	2	0,0	1	15	113	15	MCP	memb	Pinh_4_Speed_400_488_0.2_G_1.5_R_5_GG_700_RG_0
+/Volumes/4TB/membranes/20190825 nosMCPGFP, m5m8peveMS2lacZ, Dl-mSca/	20190825 nosMCPGFP, m5m8peveMS2lacZ, Dl-mSca 5 561 400x1 2.lif	_3D/	81	29	12	60	0.36	1	0	m5m8peve DlmSca	2	2	0,1	1	10	82	15	MCP	memb	Pinh_4_Speed_400_488_0.2_G_1.5_R_5_GG_700_RG_0
+/Volumes/4TB/membranes/20190111 NiGFP/	20190111 NiGFP 1.lif	_3D/	80	29	8	60	0.36	1	0	NiGFP	1	2	1,1	1	5	81	15	memb	NaN	Pinh_4_Speed_600_488_0.2_G_3_R_0_GG_1029.1_RG_817.7
+/Volumes/4TB/membranes/20190909 Dl-mSca, shg-GFP/	20190909 Dl-mSca, shg-GFP.lif	_3D/	75	29	12	60	0.36	1	0	shgGFP DlmSca	1	2	0,0	1	12	76	15	memb	memb	Pinh_4_Speed_400_488_0.2_G_1.5_R_0_GG_0_RG_0
+/Volumes/4TB/membranes/20190910 Dl-mSca, shg-GFP/	20190910 Dl-mSca, shg-GFP 1.lif	_3D/	75	29	12	60	0.36	1	0	shgGFP DlmSca	2	2	1,0	1	3	76	15	memb	memb	Pinh_4_Speed_400_488_0.2_G_1.5_R_0_GG_0_RG_0
+/Volumes/4TB/membranes/20190910 Dl-mSca, shg-GFP/	20190910 Dl-mSca, shg-GFP 2.lif	_3D/	80	29	12	60	0.36	1	0	shgGFP DlmSca	3	2	0,1	1	7	81	15	memb	memb	Pinh_4_Speed_400_488_0.2_G_1.5_R_0_GG_0_RG_0
+/Volumes/4TB/membranes/20190925 hisRFP, spiderGFP/	20190925 hisRFP, spiderGFP 1.lif	_3D/	277	38	8	20	0.36	1	0	spiderGFP hisRFP	1	2	0,0	1	70	278	15	memb	his	Pinh_4_Speed_400_488_0.2_G_1_R_1_GG_855.7_RG_0
+/Volumes/4TB/membranes/20190925 hisRFP, spiderGFP/	20190925 hisRFP, spiderGFP 2.lif	_3D/	89	50	8	30	0.36	1	24	XspiderGFP hisRFP	2	2	0,0	1	1	90	15	memb	his	Pinh_4_Speed_400_488_0.2_G_1_R_1_GG_855.7_RG_0
+/Volumes/4TB/membranes/20191029 slam, Dl-mSca/	20191029 slam, Dl-mSca 1.lif	_3D/	81	29	12	60	0.36	1	0	slam DlmSca	1	2	0,0	1	20	82	15	memb	NaN	Pinh_4_Speed_400_488_0.2_G_0_R_5_GG_700_RG_700
+/Volumes/4TB/membranes/20191029 slam, Dl-mSca/	20191029 slam, Dl-mSca 2.lif	_3D/	75	29	12	60	0.36	1	0	slam DlmSca	2	2	1,0	1	12	76	15	memb	NaN	Pinh_4_Speed_400_488_0.2_G_0_R_5_GG_700_RG_700
+/Volumes/4TB/membranes/20191029 slam, Dl-mSca/	20191029 slam:+, Dl-mSca 1.lif	_3D/	69	29	12	60	0.36	1	0	slam:+ DlmSca	1	2	1,1	1	1	70	15	memb	NaN	Pinh_4_Speed_400_488_0.2_G_0_R_5_GG_700_RG_700
+/Volumes/4TB/membranes/20191029 slam, Dl-mSca/	20191029 slam:+, Dl-mSca 2.lif	_3D/	75	29	12	60	0.36	1	0	slam:+ DlmSca	2	2	0,0	1	12	76	15	memb	NaN	 Pinh_4_Speed_400_488_0.2_G_0_R_5_GG_700_RG_700

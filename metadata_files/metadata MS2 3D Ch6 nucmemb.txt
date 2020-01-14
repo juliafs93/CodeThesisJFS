@@ -1,0 +1,5 @@
+Path	File	Name	Frames	Slices	Bits	TimeRes	XYRes	ZRes	Delay	Nickname	Rep	Zoom	Flip	From	nc14	To	SplitEarly	Channel1	Channel2	Notes
+/Volumes/Mac OS/Dillan/Nup107GFP/20190614 nup107GFP/	20190614 Nup107GFP.lif	_3D/	378	29	12	15	0.18	1	0	Nup107GFP	1	4	0,0	1	1	379	15	memb	NaN	Pinh_4_Speed_400_488_0.2_G_1_R_0_GG_700_RG_700
+/Volumes/Mac OS/Dillan/Nup107GFP/20190425 nup107GFP/	20190425 nup107GFP.lif	_3D/	214	29	8	15	0.18	1	40	Nup107GFP	2	4	1,0	1	1	215	15	nucmemb	NaN	Pinh_4_Speed_400_488_0.2_G_1_R_0_GG_700_RG_700
+/Volumes/Mac OS/Dillan/Nup107GFP/20190614 nup107GFP/	20190614 Nup107GFP.lif	_3D/	339	29	12	15	0.18	1	0	Nup107GFP	1	4	1,0	1	80	340	15	nucmemb	NaN	Pinh_4_Speed_400_488_0.2_G_1_R_0_GG_700_RG_700
+/Volumes/Mac OS/Dillan/Nup107GFP/20190425 nup107GFP/	20190425 nup107GFP.lif	_3D/	214	29	8	15	0.18	1	40	Nup107GFP	2	4	1,0	1	1	215	15	nucmemb	NaN	 Pinh_4_Speed_400_488_0.2_G_1_R_0_GG_700_RG_700
